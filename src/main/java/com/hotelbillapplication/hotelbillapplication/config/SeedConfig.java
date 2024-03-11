@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 
 import com.hotelbillapplication.hotelbillapplication.entity.Item;
-import com.hotelbillapplication.hotelbillapplication.repository.HotelRepository;
+import com.hotelbillapplication.hotelbillapplication.repository.ItemRepository;
 
 public class SeedConfig implements CommandLineRunner {
 
 	@Autowired
-	private HotelRepository repository;
+	private ItemRepository repository;
 	
 	@Override
 	public void run(String... args) throws Exception {
