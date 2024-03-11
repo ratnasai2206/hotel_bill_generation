@@ -7,17 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.hotelbillapplication.hotelbillapplication.entity.Item;
-import com.hotelbillapplication.hotelbillapplication.repository.HotelRepository;
+import com.hotelbillapplication.hotelbillapplication.repository.ItemRepository;
 
 @Repository
-public class HotelDao {
+public class ItemDao {
 
 	@Autowired
-	private HotelRepository hotelRepository;
+	private ItemRepository hotelRepository;
 	
 	// to save item into the database
-	public Item saveItem(Item hotel) {
-		return hotelRepository.save(hotel);
+	public Item saveItem(Item item) {
+		return hotelRepository.save(item);
 	}
 	
 	// to get a particular item from the database by using item Id
