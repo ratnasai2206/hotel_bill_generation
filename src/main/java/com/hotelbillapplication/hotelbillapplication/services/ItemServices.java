@@ -32,11 +32,11 @@ public class ItemServices implements ItemService {
 	// To save food Item
 	public ResponseEntity<ResponseStructure<Item>> saveItem(ItemDto items) {
 		Item item = new Item();
-		item.setFood_Name(items.getFood_Name());
+		item.setItemName(items.getFood_Name());
 		item.setPrice(items.getPrice());
 
 		Item receiveditems = itemDao.saveItem(item);
-		ResponseStructure<Item> responseStructure = new ResponseStructure();
+		ResponseStructure<Item> responseStructure = new ResponseStructure<Item>();
 		responseStructure.setStatusCode(HttpStatus.CREATED.value());
 		responseStructure.setMessage(" item saved succesfully");
 		responseStructure.setData(receiveditems);
@@ -49,8 +49,8 @@ public class ItemServices implements ItemService {
 	public ResponseEntity<ResponseStructure<Item>> updateItem(Item item, int id) {
 		Item items = itemDao.getItem(id);
 		if (item != null) {
-			if (items.getFood_Name() != null) {
-				item.setFood_Name(item.getFood_Name());
+			if (items.getItemName() != null) {
+				items.setItemName(item.getItemName());
 			}
 			if (item.getPrice() != 0) {
 				items.setPrice(item.getPrice());
