@@ -34,7 +34,8 @@ public class OrderController {
 	private OrderService orderService;
 
 	@Operation(description = "To save order given by the customer", summary = "order  will be created")
-	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Order sucessfull") })
+	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Order sucessfull"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
 	@PostMapping(value = "/", consumes = { MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_XML_VALUE,
 					MediaType.APPLICATION_JSON_VALUE })
@@ -73,16 +74,16 @@ public class OrderController {
 	@Operation(description = "To cancel the order", summary = "order will be cancelled")
 	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Orders cancled"),
 			@ApiResponse(responseCode = "404", description = "`NOT FOUND`", content = @Content) })
-	@DeleteMapping(value = "/{orderId}",produces = { MediaType.APPLICATION_XML_VALUE,
+	@DeleteMapping(value = "/{orderId}", produces = { MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<ResponseStructure<String>> deleteOrder(@PathVariable int orderId) {
 		return orderService.deleteOrder(orderId);
 	}
-	
+
 	@Operation(description = "To caliclate total bill of the day", summary = "total bill price per day will be displayed")
-	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Orders viewed") })
-	@GetMapping(value="/perday",produces = { MediaType.APPLICATION_XML_VALUE,
-			MediaType.APPLICATION_JSON_VALUE })
+	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Orders viewed"),
+			@ApiResponse(content = @Content(), responseCode = "400") })
+	@GetMapping(value = "/perday", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<ResponseStructure<Double>> caliclatedayprise(@RequestParam LocalDate date) {
 		return orderService.caliclatedayprice(date);
 	}

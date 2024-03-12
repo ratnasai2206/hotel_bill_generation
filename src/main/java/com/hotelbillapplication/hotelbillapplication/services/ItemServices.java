@@ -13,14 +13,16 @@ import com.hotelbillapplication.hotelbillapplication.dto.ResponseStructure;
 import com.hotelbillapplication.hotelbillapplication.entity.Item;
 import com.hotelbillapplication.hotelbillapplication.exception.ItemNotFoundException;
 
-
 @Service
 public class ItemServices implements ItemService {
 
 	@Autowired
 	private ItemDao itemDao;
 
-	// To show all food items
+	/*
+	 * it is used to display all the items present in the items tables
+	 */
+	@Override
 	public ResponseEntity<ResponseStructure<List<Item>>> showAllFoodItems() {
 		List<Item> item = itemDao.getItemList();
 		ResponseStructure<List<Item>> responseStructure = new ResponseStructure<List<Item>>();
@@ -30,10 +32,13 @@ public class ItemServices implements ItemService {
 		return new ResponseEntity<ResponseStructure<List<Item>>>(responseStructure, HttpStatus.OK);
 	}
 
-	// To save food Item
+	/*
+	 * it is used to save the item in the item table
+	 */
+	@Override
 	public ResponseEntity<ResponseStructure<Item>> saveItem(ItemDto items) {
 		Item item = new Item();
-		item.setItemName(items.getFood_Name());
+		item.setItemName(items.getItemName());
 		item.setPrice(items.getPrice());
 
 		Item receiveditems = itemDao.saveItem(item);
@@ -45,13 +50,15 @@ public class ItemServices implements ItemService {
 
 	}
 
-	
-	//To update food Item
+	/*
+	 * it is used to update the particular item
+	 */
+	@Override
 	public ResponseEntity<ResponseStructure<Item>> updateItem(ItemDto item, int id) {
 		Item items = itemDao.getItem(id);
 		if (item != null) {
-			if (item.getFood_Name() != null) {
-				items.setItemName(item.getFood_Name());
+			if (item.getItemName() != null) {
+				items.setItemName(item.getItemName());
 			}
 			if (item.getPrice() != 0) {
 				items.setPrice(item.getPrice());
@@ -65,56 +72,60 @@ public class ItemServices implements ItemService {
 		return new ResponseEntity<ResponseStructure<Item>>(responseStructure, HttpStatus.CREATED);
 
 	}
-	
-    //To delete food item
-	    public ResponseEntity<ResponseStructure<String>> deleteFoodItem(int id) {
-	    	boolean item = itemDao.removeItem(id);
-			if(item) {
-				ResponseStructure<String> responseStructure = new ResponseStructure<String>();
-				responseStructure.setStatusCode(HttpStatus.OK.value());
-				responseStructure.setMessage(" item deleted");
-				responseStructure.setData("item removed successfully");
-				return new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.OK);
-			}
+
+	/*
+	 * it is used to delete the particular item from item table by using item ID
+	 */
+	@Override
+	public ResponseEntity<ResponseStructure<String>> deleteFoodItem(int id) {
+		boolean item = itemDao.removeItem(id);
+		if (item) {
 			ResponseStructure<String> responseStructure = new ResponseStructure<String>();
 			responseStructure.setStatusCode(HttpStatus.OK.value());
-			responseStructure.setMessage(" item not deleted");
-			responseStructure.setData("item not removed");
+			responseStructure.setMessage(" item deleted");
+			responseStructure.setData("item removed successfully");
 			return new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.OK);
-
-	    }
-
-		@Override
-		public ResponseEntity<ResponseStructure<Item>> getItemById(int itemId) {
-			Item item=itemDao.getItem(itemId);
-			if(item!=null) {
-				ResponseStructure<Item> responseStructure = new ResponseStructure<>();
-				responseStructure.setStatusCode(HttpStatus.OK.value());
-				responseStructure.setMessage(" Item found");
-				responseStructure.setData(item);
-				return new ResponseEntity<ResponseStructure<Item>>(responseStructure, HttpStatus.OK);
-			}
-			else {
-				throw new ItemNotFoundException("item not found");
-			}
 		}
+		ResponseStructure<String> responseStructure = new ResponseStructure<String>();
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		responseStructure.setMessage(" item not deleted");
+		responseStructure.setData("item not removed");
+		return new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.OK);
 
-		@Override
-		public ResponseEntity<ResponseStructure<Item>> getItemByName(String itemName) {
-			Item item=itemDao.findByName(itemName);
-			if(item!=null) {
-				ResponseStructure<Item> responseStructure = new ResponseStructure<>();
-				responseStructure.setStatusCode(HttpStatus.OK.value());
-				responseStructure.setMessage(" Item found");
-				responseStructure.setData(item);
-				return new ResponseEntity<ResponseStructure<Item>>(responseStructure, HttpStatus.OK);
-			}
-			else {
-				throw new ItemNotFoundException("item not found");
-			}
+	}
+
+	/*
+	 * it is used to display the particular item from item table by using item ID
+	 */
+	@Override
+	public ResponseEntity<ResponseStructure<Item>> getItemById(int itemId) {
+		Item item = itemDao.getItem(itemId);
+		if (item != null) {
+			ResponseStructure<Item> responseStructure = new ResponseStructure<>();
+			responseStructure.setStatusCode(HttpStatus.OK.value());
+			responseStructure.setMessage(" Item found");
+			responseStructure.setData(item);
+			return new ResponseEntity<ResponseStructure<Item>>(responseStructure, HttpStatus.OK);
+		} else {
+			throw new ItemNotFoundException("item not found");
 		}
-	
-	    }
+	}
 
-	
+	/*
+	 * it is used to display the particular item from item table by using item Name
+	 */
+	@Override
+	public ResponseEntity<ResponseStructure<Item>> getItemByName(String itemName) {
+		Item item = itemDao.findByName(itemName);
+		if (item != null) {
+			ResponseStructure<Item> responseStructure = new ResponseStructure<>();
+			responseStructure.setStatusCode(HttpStatus.OK.value());
+			responseStructure.setMessage(" Item found");
+			responseStructure.setData(item);
+			return new ResponseEntity<ResponseStructure<Item>>(responseStructure, HttpStatus.OK);
+		} else {
+			throw new ItemNotFoundException("item not found");
+		}
+	}
 
+}

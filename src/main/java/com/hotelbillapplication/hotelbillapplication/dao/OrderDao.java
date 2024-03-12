@@ -12,40 +12,51 @@ import com.hotelbillapplication.hotelbillapplication.repository.OrderRepository;
 
 @Repository
 public class OrderDao {
-	
+
 	@Autowired
 	private OrderRepository orderRepository;
 
-	// to save order into the database
+	/*
+	 * to save order into the database
+	 */
 	public Orders saveOrders(Orders orders) {
 		return orderRepository.save(orders);
 	}
-	
-	//to get order from the database
-	public List<Orders> getAllOrders(){
+
+	/*
+	 * to get order from the database
+	 */
+	public List<Orders> getAllOrders() {
 		return orderRepository.findAll();
 	}
-	
-	//to get particular order from the database
+
+	/*
+	 * to get particular order from the database
+	 */
 	public Orders getOrder(int orderId) {
-		Optional<Orders> optional= orderRepository.findById(orderId);
-		if(optional.isPresent()) {
+		Optional<Orders> optional = orderRepository.findById(orderId);
+		if (optional.isPresent()) {
 			return optional.get();
 		}
-		return null;	
+		return null;
 	}
-	
-	//to delete particular order from the database
+
+	/*
+	 * to delete particular order from the database
+	 */
 	public boolean deleteOrderById(int orderId) {
-		Optional<Orders> optional=orderRepository.findById(orderId);
-		if(optional.isPresent()) {
+		Optional<Orders> optional = orderRepository.findById(orderId);
+		if (optional.isPresent()) {
 			orderRepository.delete(optional.get());
 			return true;
 		}
 		return false;
 	}
-	
-	public List<Orders> findByDate(LocalDate date){
+
+	/*
+	 * it is used to find the order by using date
+	 */
+	public List<Orders> findByDate(LocalDate date) {
 		return orderRepository.findBycreateOrder(date);
 	}
 }
