@@ -45,4 +45,9 @@ public class ItemDao {
 		return false;
 	}
 	
+	public Item findByName(String name) {
+		return itemRepository.findByItemName(name);
+		
+	}
+	
 }
