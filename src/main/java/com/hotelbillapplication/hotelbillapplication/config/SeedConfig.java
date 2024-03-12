@@ -7,21 +7,24 @@ import org.springframework.context.annotation.Configuration;
 import com.hotelbillapplication.hotelbillapplication.entity.Item;
 import com.hotelbillapplication.hotelbillapplication.repository.ItemRepository;
 
+/*
+it is used to insert a default value /row while creating the tables
+*/
 @Configuration
 public class SeedConfig implements CommandLineRunner {
 
 	@Autowired
 	private ItemRepository repository;
-	
+
 	@Override
 	public void run(String... args) throws Exception {
-		if(repository.count()==0) {
-			Item item =new Item();
+		if (repository.count() == 0) {
+			Item item = new Item();
 			item.setItemName("Full Meals");
 			item.setPrice(150);
 			repository.save(item);
 		}
-		
+
 	}
 
 }

@@ -4,11 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.hotelbillapplication.hotelbillapplication.entity.Item;
 
-
-
-
 public interface ItemRepository extends JpaRepository<Item, Integer> {
-	
-	Item findByItemName(String name);
-}	
 
+	/*
+	 * it is used to display particular item by using the item Name
+	 */
+	Item findByItemName(String name);
+}

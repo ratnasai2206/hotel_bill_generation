@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class ItemDto {
 	
-	private String food_Name;
+	private String itemName;
 	private double price;
 }
