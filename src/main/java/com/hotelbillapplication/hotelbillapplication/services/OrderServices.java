@@ -1,5 +1,6 @@
 package com.hotelbillapplication.hotelbillapplication.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,26 +8,68 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.hotelbillapplication.hotelbillapplication.dao.ItemDao;
 import com.hotelbillapplication.hotelbillapplication.dao.OrderDao;
 import com.hotelbillapplication.hotelbillapplication.dto.OrderDto;
 import com.hotelbillapplication.hotelbillapplication.dto.ResponseStructure;
+import com.hotelbillapplication.hotelbillapplication.entity.Item;
 import com.hotelbillapplication.hotelbillapplication.entity.OrderItems;
 import com.hotelbillapplication.hotelbillapplication.entity.Orders;
+import com.hotelbillapplication.hotelbillapplication.exception.ItemNotFoundException;
 import com.hotelbillapplication.hotelbillapplication.exception.OrderNotFoundException;
 import com.hotelbillapplication.hotelbillapplication.exception.OrdersNotSaveException;
 
 @Service
-public class OrderServices implements OrderService {
 
+public class OrderServices implements OrderService {
 	@Autowired
 	private OrderDao orderDao;
+	@Autowired
+	private ItemDao itemDao;
+	
+	@Override
+	public ResponseEntity<ResponseStructure<Double>> caliclatedayprice(LocalDate date) {
+		List<Orders> ordersInDay=orderDao.findByDate(date);
+		double price=0;
+		for(Orders order:ordersInDay) {
+				List<OrderItems> items=order.getItems();
+				for(OrderItems item:items) {
+					Item orderedItem=itemDao.findByName(item.getItemName());
+					price+=orderedItem.getPrice()*item.getQuantity();
+				}
+			
+		}
+		ResponseStructure<Double> responseStructure=new ResponseStructure<Double>();
+		responseStructure.setData(price);
+		responseStructure.setMessage("Sucess");
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		return new ResponseEntity<ResponseStructure<Double>>(responseStructure,HttpStatus.OK);
+	}
+	
+	public double caliclateTotalPrice(Orders orders){
+		double price=0;
+		if(orders!=null) {
+			List<OrderItems> items=orders.getItems();
+			for(OrderItems item:items) {
+				Item orderedItem=itemDao.findByName(item.getItemName());
+				if(item!=null) {
+					price+=orderedItem.getPrice()*item.getQuantity();
+				}
+					throw new ItemNotFoundException("Item Not Found");
+				
+			}
+		}
+		
+		return price;
+	}
 
+	
 	@Override
 	public ResponseEntity<ResponseStructure<Orders>> saveOrder(OrderDto orderDto) {
 		if(orderDto!=null) {
 		Orders order=new Orders();
 		order.setItems(orderDto.getItems());
-		order.setTotalPrice(0);
+		order.setTotalPrice(caliclateTotalPrice(order));
 		ResponseStructure<Orders> structure = new ResponseStructure<Orders>();
 		structure.setStatusCode(HttpStatus.CREATED.value());
 		structure.setMessage("order created successfully");
@@ -96,6 +139,7 @@ public class OrderServices implements OrderService {
 		structure.setData(orders);
 		return new ResponseEntity<ResponseStructure<List<Orders>>>(structure, HttpStatus.OK);
 	}
+
 
 	
 

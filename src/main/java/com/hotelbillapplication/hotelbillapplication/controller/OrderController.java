@@ -1,5 +1,6 @@
 package com.hotelbillapplication.hotelbillapplication.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hotelbillapplication.hotelbillapplication.dto.OrderDto;
@@ -23,6 +25,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 @RequestMapping("/order")
 public class OrderController {
 
+	
 	@Autowired
 	private OrderService orderService;
 
@@ -50,4 +53,11 @@ public class OrderController {
 	public ResponseEntity<ResponseStructure<String>> deleteOrder(@PathVariable int orderId) {
 		return orderService.deleteOrder(orderId);
 	}
+	
+	@GetMapping("/perday")
+	public ResponseEntity<ResponseStructure<Double>> caliclatedayprise(@RequestParam LocalDate date){
+		return orderService.caliclatedayprice(date);
+	}
+	
+	
 }

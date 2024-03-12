@@ -15,7 +15,7 @@ public class SeedConfig implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		if(repository.count()==0) {
 			Item hotel =new Item();
-			hotel.setFood_Name("Full meals");
+			hotel.setItemName(null);
 			hotel.setPrice(150);
 			repository.save(hotel);
 			

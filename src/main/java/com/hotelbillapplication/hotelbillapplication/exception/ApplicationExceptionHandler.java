@@ -31,4 +31,14 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 		return new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.NOT_FOUND);
 	}
 	
+	@ExceptionHandler(ItemNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> handleItemNotFoundException(ItemNotFoundException exception){
+		ResponseStructure<String> responseStructure=new ResponseStructure<String>();
+		responseStructure.setData(exception.getMessage());
+		responseStructure.setMessage("Not Found");
+		responseStructure.setStatusCode(HttpStatus.NOT_FOUND.value());
+		
+		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.NOT_FOUND);
+	}
+		
 }

@@ -1,5 +1,6 @@
 package com.hotelbillapplication.hotelbillapplication.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -19,5 +20,8 @@ public interface OrderService {
 	public ResponseEntity<ResponseStructure<Orders>> updateOrders(int order_Id,OrderDto orderDto );
 	
 	public ResponseEntity<ResponseStructure<List<Orders>>>  getAllOrders();
+	
+	public ResponseEntity<ResponseStructure<Double>> caliclatedayprice(LocalDate date);
 
+	
 }
