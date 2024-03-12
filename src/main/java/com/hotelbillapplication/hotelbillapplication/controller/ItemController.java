@@ -36,13 +36,14 @@ public class ItemController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ResponseStructure<Item>> updateItem(@PathVariable int id, @RequestBody ItemDto itemDto) {
-		return itemService.updateItem(itemDto, id);
+	public ResponseEntity<ResponseStructure<Item>> updateItem(@PathVariable int itemId, @RequestBody ItemDto itemDto) {
+		return itemService.updateItem(itemDto, itemId);
 	}
+
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<ResponseStructure<String>> deleteItem( @PathVariable int id){
-	return itemService.deleteFoodItem(id);
+	public ResponseEntity<ResponseStructure<String>> deleteItem( @PathVariable int itemId){
+	return itemService.deleteFoodItem(itemId);
 	}
 	
 	@GetMapping("/{itemId}")

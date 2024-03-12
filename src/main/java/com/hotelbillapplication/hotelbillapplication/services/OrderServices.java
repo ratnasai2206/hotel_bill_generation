@@ -1,4 +1,4 @@
-package com.hotelbillapplication.hotelbillapplication.services;
+ package com.hotelbillapplication.hotelbillapplication.services;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -126,21 +126,51 @@ public class OrderServices implements OrderService {
 	}
 
 	@Override
-	public ResponseEntity<ResponseStructure<Orders>> updateOrders(int order_Id,OrderDto orderDto) {
-		Orders order=orderDao.getOrder(order_Id);
-		if(orderDto!=null && order!=null) {
-			if(orderDto.getItems()!=null) {
-				order.setItems(orderDto.getItems());
-			}
-			Orders recivedOrders=orderDao.saveOrders(order);
-			ResponseStructure<Orders> structure = new ResponseStructure<Orders>();
-			structure.setStatusCode(HttpStatus.OK.value());
-			structure.setMessage("Ok");
-			structure.setData(recivedOrders	);
-			return new ResponseEntity<ResponseStructure<Orders>>(structure, HttpStatus.OK);	
-		}
-		throw new OrderNotFoundException("Order Not Found By This Order ID" +order_Id);
+	public ResponseEntity<ResponseStructure<Orders>> updateOrders(int order_Id, OrderDto orderDto) {
+	    Orders order = orderDao.getOrder(order_Id); 
+	    if (orderDto != null && order != null) {
+	        // Merge items from the DTO into the existing order
+	        List<OrderItems> existingItems = order.getItems();
+	        List<OrderItems> updatedItems = orderDto.getItems();
+//	        existingItems.addAll(updatedItems);
+	        // Update or add new items
+	        for (OrderItems updatedItem : updatedItems) {
+	            boolean itemExists = false;
+	            for (OrderItems existingItem : existingItems) {
+	                if (existingItem.getItemName().equalsIgnoreCase(updatedItem.getItemName())) {
+	                    // Item exists, update its quantity
+	                    existingItem.setQuantity(updatedItem.getQuantity());
+	                    itemExists = true;
+	                    break;
+	                }
+	            }
+	            // If item doesn't exist in the original order, add it
+	            if (!itemExists) {
+	                existingItems.add(updatedItem);
+	            }
+	        }
+
+	        // Remove items that are not present in the updated list
+	        existingItems.removeIf(existingItem ->
+	                updatedItems.stream().noneMatch(updatedItem ->
+	                existingItem.getItemName().equalsIgnoreCase(updatedItem.getItemName())));
+
+	        order.setItems(existingItems);
+	        order.setTotalPrice(caliclateTotalPrice(order));
+	        
+	        Orders receivedOrders = orderDao.saveOrders(order);
+	        
+	        ResponseStructure<Orders> structure = new ResponseStructure<>();
+	        structure.setStatusCode(HttpStatus.OK.value());
+	        structure.setMessage("Ok");
+	        structure.setData(receivedOrders);
+	        
+	        return new ResponseEntity<>(structure, HttpStatus.OK);    
+	    }
+	    throw new OrderNotFoundException("Order Not Found By This Order ID " + order_Id);
 	}
+
+	
 
 	@Override
 	public ResponseEntity<ResponseStructure<List<Orders>>> getAllOrders() {
