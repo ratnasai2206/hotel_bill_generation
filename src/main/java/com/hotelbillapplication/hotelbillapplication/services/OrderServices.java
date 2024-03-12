@@ -1,4 +1,4 @@
-package com.hotelbillapplication.hotelbillapplication.services;
+ package com.hotelbillapplication.hotelbillapplication.services;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -70,10 +70,11 @@ public class OrderServices implements OrderService {
 		Orders order=new Orders();
 		order.setItems(orderDto.getItems());
 		order.setTotalPrice(caliclateTotalPrice(order));
+		Orders recivedOrder=orderDao.saveOrders(order);
 		ResponseStructure<Orders> structure = new ResponseStructure<Orders>();
 		structure.setStatusCode(HttpStatus.CREATED.value());
 		structure.setMessage("order created successfully");
-		structure.setData(order);
+		structure.setData(recivedOrder);
 		return new ResponseEntity<ResponseStructure<Orders>>(structure, HttpStatus.CREATED);
 		}
 		throw new OrdersNotSaveException();
@@ -121,13 +122,27 @@ public class OrderServices implements OrderService {
 			if(orderDto.getItems()!=null) {
 				order.setItems(orderDto.getItems());
 			}
+			Orders recivedOrders=orderDao.saveOrders(order);
 			ResponseStructure<Orders> structure = new ResponseStructure<Orders>();
 			structure.setStatusCode(HttpStatus.OK.value());
 			structure.setMessage("Ok");
-			structure.setData(order);
+			structure.setData(recivedOrders);
 			return new ResponseEntity<ResponseStructure<Orders>>(structure, HttpStatus.OK);	
 		}
 		throw new OrderNotFoundException("Order Not Found By This Order ID" +order_Id);
+	}
+	
+	public ResponseEntity<ResponseStructure<Orders>> saveOrder(Orders order) {
+		if(order!=null) {
+		order.setTotalPrice(caliclateTotalPrice(order));
+		Orders recivedOrder=orderDao.saveOrders(order);
+		ResponseStructure<Orders> structure = new ResponseStructure<Orders>();
+		structure.setStatusCode(HttpStatus.CREATED.value());
+		structure.setMessage("order created successfully");
+		structure.setData(recivedOrder);
+		return new ResponseEntity<ResponseStructure<Orders>>(structure, HttpStatus.CREATED);
+		}
+		throw new OrdersNotSaveException();
 	}
 
 	@Override

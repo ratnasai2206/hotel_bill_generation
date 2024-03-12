@@ -35,10 +35,11 @@ public class ItemController {
 		return itemService.saveItem(item);
 	}
 
-	@PutMapping("/change/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<ResponseStructure<Item>> updateItem(@PathVariable int id, @RequestBody Item items) {
 		return itemService.updateItem(items, id);
 	}
+
 	
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<ResponseStructure<String>> deleteItem( @PathVariable int id){
