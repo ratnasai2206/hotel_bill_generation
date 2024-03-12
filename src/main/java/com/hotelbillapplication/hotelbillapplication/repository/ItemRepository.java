@@ -16,3 +16,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	
  
 }	
+
+public interface ItemRepository extends JpaRepository<Item, Integer> {
+	Item findByItemName(String name);
+}

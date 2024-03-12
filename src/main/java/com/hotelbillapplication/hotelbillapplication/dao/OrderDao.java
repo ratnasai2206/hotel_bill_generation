@@ -1,5 +1,6 @@
 package com.hotelbillapplication.hotelbillapplication.dao;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,5 +41,9 @@ public class OrderDao {
 			return true;
 		}
 		return false;
+	}
+	
+	public List<Orders> findByDate(LocalDate date){
+		return orderRepository.findBycreateOrder(date);
 	}
 }

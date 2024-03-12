@@ -14,10 +14,10 @@ public class SeedConfig implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		if(repository.count()==0) {
-			Item hotel =new Item();
-			hotel.setFood_Name("Full meals");
-			hotel.setPrice(150);
-			repository.save(hotel);
+			Item item =new Item();
+			item.setItemName("Full Meals");
+			item.setPrice(150);
+			repository.save(item);
 			
 		}
 		

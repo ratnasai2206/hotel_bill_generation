@@ -45,7 +45,9 @@ public class ItemDao {
 		}
 		return false;
 	}
-	
-	
-	
+	// to get the item by using item name
+	public Item findByName(String name) {
+		return itemRepository.findByItemName(name);
+		
+	}
 }
