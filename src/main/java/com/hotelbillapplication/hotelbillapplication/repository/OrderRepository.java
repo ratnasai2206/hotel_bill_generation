@@ -8,6 +8,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.hotelbillapplication.hotelbillapplication.entity.Orders;
 
 public interface OrderRepository extends JpaRepository<Orders, Integer> {
+
 	
 	List<Orders> findBycreateOrder(LocalDate date);
+
+
+	
+
 }

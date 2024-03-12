@@ -16,6 +16,11 @@ import com.hotelbillapplication.hotelbillapplication.entity.OrderItems;
 import com.hotelbillapplication.hotelbillapplication.entity.Orders;
 import com.hotelbillapplication.hotelbillapplication.exception.ItemNotFoundException;
 
+
+import org.springframework.stereotype.Service;
+
+@Service
+
 public class OrderServices implements OrderService {
 	@Autowired
 	private OrderDao orderDao;
