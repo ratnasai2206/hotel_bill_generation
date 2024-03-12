@@ -17,7 +17,7 @@ public class Item {
 	@SequenceGenerator(name = "hotel_id", initialValue = 1, allocationSize = 1, sequenceName = "hotel_sequence")
 	private int itemId;
 	@Column(unique = true)
-	private String food_Name;
+	private String itemName;
 	private double price;
 
 }

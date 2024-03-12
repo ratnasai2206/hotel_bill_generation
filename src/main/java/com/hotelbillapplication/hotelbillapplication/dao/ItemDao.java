@@ -13,16 +13,16 @@ import com.hotelbillapplication.hotelbillapplication.repository.ItemRepository;
 public class ItemDao {
 
 	@Autowired
-	private ItemRepository hotelRepository;
+	private ItemRepository itemRepository;
 	
 	// to save item into the database
 	public Item saveItem(Item item) {
-		return hotelRepository.save(item);
+		return itemRepository.save(item);
 	}
 	
 	// to get a particular item from the database by using item Id
 	public Item getItem(int item_Id) {
-		Optional<Item> optional=hotelRepository.findById(item_Id);
+		Optional<Item> optional=itemRepository.findById(item_Id);
 		if(optional.isPresent()) {
 			return optional.get();
 		}
@@ -32,17 +32,22 @@ public class ItemDao {
 	
 	//to get the list of items present in the database
 	public List<Item> getItemList(){
-		return hotelRepository.findAll();
+		return itemRepository.findAll();
 	}
 	
 	//to delete particular item from the database by using item Id
 	public boolean removeItem(int item_Id) {
 		Item hotel=getItem(item_Id);
 		if(hotel !=null) {
-			hotelRepository.delete(hotel);
+			itemRepository.delete(hotel);
 			return true;
 		}
 		return false;
+	}
+	
+	public Item findByName(String name) {
+		return itemRepository.findByItemName(name);
+		
 	}
 	
 }
