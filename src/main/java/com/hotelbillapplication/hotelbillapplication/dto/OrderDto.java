@@ -14,5 +14,6 @@ public class OrderDto {
 
 	
 	private List<OrderItems> items;
-	private double totalPrice;
+	
+	
 }
