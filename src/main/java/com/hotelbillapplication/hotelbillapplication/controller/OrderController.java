@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,6 @@ import com.hotelbillapplication.hotelbillapplication.dto.ResponseStructure;
 import com.hotelbillapplication.hotelbillapplication.entity.Orders;
 import com.hotelbillapplication.hotelbillapplication.services.OrderService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/order")
@@ -31,6 +31,7 @@ public class OrderController {
 
 	@PostMapping(value = "/")
 	public ResponseEntity<ResponseStructure<Orders>> saveOrder(@RequestBody OrderDto orderDto) {
+		System.out.println(orderDto.getItems());
 		return orderService.saveOrder(orderDto);
 	}
 

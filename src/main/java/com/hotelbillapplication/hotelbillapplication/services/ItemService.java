@@ -12,7 +12,9 @@ public interface ItemService {
 
 	  ResponseEntity<ResponseStructure<List<Item>>> showAllFoodItems();
 	  ResponseEntity<ResponseStructure<Item>> saveItem(ItemDto item) ;
-	  ResponseEntity<ResponseStructure<Item>> updateItem(Item item, int id);
+	  ResponseEntity<ResponseStructure<Item>> updateItem(ItemDto item, int id);
 	  ResponseEntity<ResponseStructure<String>> deleteFoodItem(int id) ;
+	  ResponseEntity<ResponseStructure<Item>> getItemById(int itemId);
+	ResponseEntity<ResponseStructure<Item>> getItemByName(String itemName);
 
 }
