@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.hibernate.annotations.CurrentTimestamp;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +25,7 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "order_id")
 	@SequenceGenerator(name = "order_id", initialValue = 1001, allocationSize = 1, sequenceName = "order_sequence")
 	private int orderId;
-	@OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
+	@OneToMany
 	private List<OrderItems> items;
 	@CurrentTimestamp
 	private LocalDate createOrder;

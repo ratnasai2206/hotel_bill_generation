@@ -37,14 +37,15 @@ public class ItemDao {
 	
 	//to delete particular item from the database by using item Id
 	public boolean removeItem(int item_Id) {
-		Item hotel=getItem(item_Id);
-		if(hotel !=null) {
-			itemRepository.delete(hotel);
+		Item item=getItem(item_Id);
+		if(item !=null) {
+			itemRepository.delete(item);
 			return true;
 		}
 		return false;
 	}
 	
+	// to get the item by using item name
 	public Item findByName(String name) {
 		return itemRepository.findByItemName(name);
 		
