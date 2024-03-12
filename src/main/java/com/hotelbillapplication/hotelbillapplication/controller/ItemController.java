@@ -30,18 +30,28 @@ public class ItemController {
 		return itemService.showAllFoodItems();
 	}
 
-	@PostMapping("/save")
+	@PostMapping("/")
 	public ResponseEntity<ResponseStructure<Item>> saveFoodItem(@RequestBody ItemDto item) {
 		return itemService.saveItem(item);
 	}
 
-	@PutMapping("/change/{id}")
-	public ResponseEntity<ResponseStructure<Item>> updateItem(@PathVariable int id, @RequestBody Item items) {
-		return itemService.updateItem(items, id);
+	@PutMapping("/{id}")
+	public ResponseEntity<ResponseStructure<Item>> updateItem(@PathVariable int id, @RequestBody ItemDto itemDto) {
+		return itemService.updateItem(itemDto, id);
 	}
 	
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<ResponseStructure<String>> deleteItem( @PathVariable int id){
 	return itemService.deleteFoodItem(id);
+	}
+	
+	@GetMapping("/{itemId}")
+	public ResponseEntity<ResponseStructure<Item>> getItemById(@PathVariable int itemId){
+		return itemService.getItemById(itemId);
+	}
+	
+	@GetMapping("/name/{itemName}")
+	public ResponseEntity<ResponseStructure<Item>> getItemByName(@PathVariable String itemName){
+		return itemService.getItemByName(itemName);
 	}
 }

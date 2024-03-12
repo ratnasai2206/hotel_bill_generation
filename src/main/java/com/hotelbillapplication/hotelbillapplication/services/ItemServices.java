@@ -11,6 +11,7 @@ import com.hotelbillapplication.hotelbillapplication.dao.ItemDao;
 import com.hotelbillapplication.hotelbillapplication.dto.ItemDto;
 import com.hotelbillapplication.hotelbillapplication.dto.ResponseStructure;
 import com.hotelbillapplication.hotelbillapplication.entity.Item;
+import com.hotelbillapplication.hotelbillapplication.exception.ItemNotFoundException;
 
 
 @Service
@@ -46,17 +47,17 @@ public class ItemServices implements ItemService {
 
 	
 	//To update food Item
-	public ResponseEntity<ResponseStructure<Item>> updateItem(Item item, int id) {
+	public ResponseEntity<ResponseStructure<Item>> updateItem(ItemDto item, int id) {
 		Item items = itemDao.getItem(id);
 		if (item != null) {
-			if (items.getItemName() != null) {
-				items.setItemName(item.getItemName());
+			if (item.getFood_Name() != null) {
+				items.setItemName(item.getFood_Name());
 			}
 			if (item.getPrice() != 0) {
 				items.setPrice(item.getPrice());
 			}
 		}
-		Item receivedItem = itemDao.saveItem(item);
+		Item receivedItem = itemDao.saveItem(items);
 		ResponseStructure<Item> responseStructure = new ResponseStructure<Item>();
 		responseStructure.setStatusCode(HttpStatus.CREATED.value());
 		responseStructure.setMessage(" item data updated");
@@ -82,6 +83,36 @@ public class ItemServices implements ItemService {
 			return new ResponseEntity<ResponseStructure<String>>(responseStructure, HttpStatus.OK);
 
 	    }
+
+		@Override
+		public ResponseEntity<ResponseStructure<Item>> getItemById(int itemId) {
+			Item item=itemDao.getItem(itemId);
+			if(item!=null) {
+				ResponseStructure<Item> responseStructure = new ResponseStructure<>();
+				responseStructure.setStatusCode(HttpStatus.OK.value());
+				responseStructure.setMessage(" Item found");
+				responseStructure.setData(item);
+				return new ResponseEntity<ResponseStructure<Item>>(responseStructure, HttpStatus.OK);
+			}
+			else {
+				throw new ItemNotFoundException("item not found");
+			}
+		}
+
+		@Override
+		public ResponseEntity<ResponseStructure<Item>> getItemByName(String itemName) {
+			Item item=itemDao.findByName(itemName);
+			if(item!=null) {
+				ResponseStructure<Item> responseStructure = new ResponseStructure<>();
+				responseStructure.setStatusCode(HttpStatus.OK.value());
+				responseStructure.setMessage(" Item found");
+				responseStructure.setData(item);
+				return new ResponseEntity<ResponseStructure<Item>>(responseStructure, HttpStatus.OK);
+			}
+			else {
+				throw new ItemNotFoundException("item not found");
+			}
+		}
 	
 	    }
 
