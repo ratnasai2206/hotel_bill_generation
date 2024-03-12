@@ -11,6 +11,7 @@ import com.hotelbillapplication.hotelbillapplication.repository.ItemRepository;
 
 @Repository
 public class ItemDao {
+	
 
 	@Autowired
 	private ItemRepository itemRepository;
@@ -44,11 +45,9 @@ public class ItemDao {
 		}
 		return false;
 	}
-	
 	// to get the item by using item name
 	public Item findByName(String name) {
 		return itemRepository.findByItemName(name);
 		
 	}
-	
 }
