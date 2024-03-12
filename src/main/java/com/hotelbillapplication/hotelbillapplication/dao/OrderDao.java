@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.hotelbillapplication.hotelbillapplication.entity.Orders;
@@ -11,7 +12,8 @@ import com.hotelbillapplication.hotelbillapplication.repository.OrderRepository;
 
 @Repository
 public class OrderDao {
-
+	
+	@Autowired
 	private OrderRepository orderRepository;
 
 	// to save order into the database

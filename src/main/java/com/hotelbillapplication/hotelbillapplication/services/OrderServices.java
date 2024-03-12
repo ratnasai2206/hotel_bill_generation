@@ -51,13 +51,22 @@ public class OrderServices implements OrderService {
 		if(orders!=null) {
 			List<OrderItems> items=orders.getItems();
 			for(OrderItems item:items) {
+				System.out.println(item.getItemName());
 				Item orderedItem=itemDao.findByName(item.getItemName());
-				if(item!=null) {
+				System.out.println(orderedItem);
+				
+				if(orderedItem!=null) {
 					price+=orderedItem.getPrice()*item.getQuantity();
 				}
+				else {
 					throw new ItemNotFoundException("Item Not Found");
+				}
+					
 				
 			}
+		}
+		else {
+			throw new OrderNotFoundException("Order Nott Found");
 		}
 		
 		return price;
@@ -68,12 +77,14 @@ public class OrderServices implements OrderService {
 	public ResponseEntity<ResponseStructure<Orders>> saveOrder(OrderDto orderDto) {
 		if(orderDto!=null) {
 		Orders order=new Orders();
+		
 		order.setItems(orderDto.getItems());
 		order.setTotalPrice(caliclateTotalPrice(order));
+		Orders recivedOrder=orderDao.saveOrders(order);
 		ResponseStructure<Orders> structure = new ResponseStructure<Orders>();
 		structure.setStatusCode(HttpStatus.CREATED.value());
 		structure.setMessage("order created successfully");
-		structure.setData(order);
+		structure.setData(recivedOrder);
 		return new ResponseEntity<ResponseStructure<Orders>>(structure, HttpStatus.CREATED);
 		}
 		throw new OrdersNotSaveException();
@@ -121,10 +132,11 @@ public class OrderServices implements OrderService {
 			if(orderDto.getItems()!=null) {
 				order.setItems(orderDto.getItems());
 			}
+			Orders recivedOrders=orderDao.saveOrders(order);
 			ResponseStructure<Orders> structure = new ResponseStructure<Orders>();
 			structure.setStatusCode(HttpStatus.OK.value());
 			structure.setMessage("Ok");
-			structure.setData(order);
+			structure.setData(recivedOrders	);
 			return new ResponseEntity<ResponseStructure<Orders>>(structure, HttpStatus.OK);	
 		}
 		throw new OrderNotFoundException("Order Not Found By This Order ID" +order_Id);
